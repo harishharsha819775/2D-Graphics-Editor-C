@@ -118,21 +118,83 @@ void drawCircle(int xc, int yc, int radius, char ch)
 {
     int x, y;
 
-    for (x = 0; x < ROWS; x++)
+    for(x = 0; x < ROWS; x++)
     {
-        for (y = 0; y < COLS; y++)
+        for(y = 0; y < COLS; y++)
         {
-            int d = (x - xc) * (x - xc) +
-                    (y - yc) * (y - yc);
+            int dx = x - xc;
+            int dy = y - yc;
 
-            if (abs(d - radius * radius) <= radius)
+            double distance = sqrt(dx * dx + dy * dy);
+
+            if(distance >= radius - 0.5 &&
+               distance <= radius + 0.5)
             {
                 canvas[x][y] = ch;
             }
         }
     }
 }
+void clearCanvas()
+{
+    int i, j;
 
+    for(i = 0; i < ROWS; i++)
+    {
+        for(j = 0; j < COLS; j++)
+        {
+            canvas[i][j] = '_';
+        }
+    }
+
+    printf("Canvas cleared successfully!\n");
+}
+
+void saveCanvas()
+{
+    FILE *fp = fopen("canvas.txt", "w");
+
+    if(fp == NULL)
+    {
+        printf("Error creating file!\n");
+        return;
+    }
+
+    for(int i = 0; i < ROWS; i++)
+    {
+        for(int j = 0; j < COLS; j++)
+        {
+            fputc(canvas[i][j], fp);
+        }
+        fputc('\n', fp);
+    }
+
+    fclose(fp);
+    printf("Canvas saved successfully!\n");
+}
+
+void loadCanvas()
+{
+    FILE *fp = fopen("canvas.txt", "r");
+
+    if(fp == NULL)
+    {
+        printf("No saved canvas found!\n");
+        return;
+    }
+
+    for(int i = 0; i < ROWS; i++)
+    {
+        for(int j = 0; j < COLS; j++)
+        {
+            canvas[i][j] = fgetc(fp);
+        }
+        fgetc(fp);
+    }
+
+    fclose(fp);
+    printf("Canvas loaded successfully!\n");
+}
 int main()
 {
     int choice;
@@ -149,7 +211,10 @@ int main()
         printf("5. Delete Rectangle\n");
         printf("6. Modify Rectangle\n");
         printf("7. Display Canvas\n");
-        printf("8. Exit\n");
+        printf("8. Clear Canvas\n");
+        printf("9. Save Canvas\n");
+        printf("10. Load Canvas\n");
+        printf("11. Exit\n");
 
         printf("Enter your choice: ");
         scanf("%d", &choice);
@@ -233,9 +298,20 @@ int main()
             break;
 
         case 8:
-            printf("Exiting program...\n");
-            return 0;
+    clearCanvas();
+    break;
 
+case 9:
+    saveCanvas();
+    break;
+
+case 10:
+    loadCanvas();
+    break;
+
+case 11:
+    printf("Exiting program...\n");
+    return 0;
         default:
             printf("Invalid choice!\n");
         }
