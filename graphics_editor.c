@@ -1,3 +1,7 @@
+/*
+Name: Harish Harsha
+Project: 2D Graphics Editor in C
+*/
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
