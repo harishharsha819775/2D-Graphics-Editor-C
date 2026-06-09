@@ -199,6 +199,21 @@ void loadCanvas()
     fclose(fp);
     printf("Canvas loaded successfully!\n");
 }
+/*
+-----------------------------------
+2D Graphics Editor in C
+Author : Harish Harsha
+Features:
+1. Draw Rectangle
+2. Draw Line
+3. Draw Triangle
+4. Draw Circle
+5. Delete Rectangle
+6. Modify Rectangle
+7. Display Canvas
+8. Clear Canvas
+-----------------------------------
+*/
 int main()
 {
     int choice;
